@@ -1,0 +1,5 @@
+http://www.apkbus.com/design/get-started/ui-overview.html
+
+<item android:state_focused="true" android:drawable="@drawable/home_btn_bg_d" /> 
+https://github.com/mitmel/Android-Image-Cache.git
+

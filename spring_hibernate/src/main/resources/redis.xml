@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+  	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+  	http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-autowire="byName">
+
+	<bean  id="jedisPoolConfig"  class="redis.clients.jedis.JedisPoolConfig">  
+	        <property  name="maxActive"   value="${redis.pool.maxActive}" />  
+	        <property  name="maxIdle" value="${redis.pool.maxIdle}" />  
+	        <property  name="maxWait"  value="${redis.pool.maxWait}" />  
+	        <property  name="testOnBorrow" value="${redis.pool.testOnBorrow}" />  
+	</bean>
+	
+	<!-- JedisPoolConfig config,String address,int port,int timeout,String auth -->
+	<bean id="jedisClientConfig" class="cn.cq.shenyun.redis.RedisClient.JedisClientConfig">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" value="${redis.ip}"/>
+		<constructor-arg index="2" value="${redis.port}"/>
+		<constructor-arg index="3" value="5000"/>
+		<constructor-arg index="4" value="${redis.password}"/>
+	</bean>
+
+	<bean id="redisClient" scope="singleton" class="cn.cq.shenyun.redis.RedisClient" factory-method="getInstance" init-method="init" destroy-method="destroy">
+		<property name="config" ref="jedisClientConfig"></property>
+	</bean>
+	
+	<bean id="jedisApi" name="jedisApi" class="cn.cq.shenyun.redis.impl.JedisApiImpl">
+		<property name="client" ref="redisClient"></property>
+		<property name="index" value="${redisIndex}"></property>
+	</bean>
+</beans>

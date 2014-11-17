@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="APP_Name" value="springh" />
+    <property name="LOG_FILE_PATH" value="/home/log/springh" />
+    <property name="PRE_LOG_NAME" value="springh" />
+    <property name="PATTERN_DEF" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n" /> 
+	<contextName>${APP_Name}</contextName>
+	
+	<appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOG_FILE_PATH}/cas_debug.log</file> 
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+	    	<fileNamePattern>${LOG_FILE_PATH}/${PRE_LOG_NAME}_debug.%d{yyyy-MM-dd}.log</fileNamePattern>  
+	    	<maxHistory>7</maxHistory>    
+	    </rollingPolicy>
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">   
+	      <level>DEBUG</level>   
+	      <onMatch>ACCEPT</onMatch> 
+	      <onMismatch>DENY</onMismatch>  
+	    </filter> 	       	   
+	    <encoder>   
+	      <pattern>${PATTERN_DEF}</pattern>   
+	    </encoder>   
+	</appender> 
+
+	<appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOG_FILE_PATH}/cas_info.log</file> 
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+	    	<fileNamePattern>${LOG_FILE_PATH}/${PRE_LOG_NAME}_info.%d{yyyy-MM-dd}.log</fileNamePattern>  
+	    	<maxHistory>7</maxHistory>    
+	    </rollingPolicy> 
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">   
+	      <level>INFO</level>   
+	      <onMatch>ACCEPT</onMatch>   
+	      <onMismatch>DENY</onMismatch>   
+	    </filter>   	   
+	    <encoder>   
+	      <pattern>${PATTERN_DEF}</pattern>   
+	    </encoder>   
+	</appender> 
+	
+	<appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOG_FILE_PATH}/cas_error.log</file> 
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+	    	<fileNamePattern>${LOG_FILE_PATH}/${PRE_LOG_NAME}_error.%d{yyyy-MM-dd}.log</fileNamePattern>  
+	    	<maxHistory>7</maxHistory>    
+	    </rollingPolicy> 
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">   
+	      <level>ERROR</level>   
+	      <onMatch>ACCEPT</onMatch>   
+	      <onMismatch>DENY</onMismatch>   
+	    </filter>   	   
+	    <encoder>   
+	      <pattern>${PATTERN_DEF}</pattern>   
+	    </encoder>   
+	</appender> 
+  	
+	<root level="DEBUG">             
+    	<appender-ref ref="FILE_INFO"/> 
+    	<appender-ref ref="FILE_DEBUG"/>
+    	<appender-ref ref="FILE_ERROR"/> 
+  	</root>
+</configuration>

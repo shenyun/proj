@@ -1,5 +1,5 @@
 *.iml
-pom.xml
+/pom.xml
 .idea
 spring_hibernate/target
 target
